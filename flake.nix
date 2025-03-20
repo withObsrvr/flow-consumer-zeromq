@@ -18,12 +18,14 @@
             version = "0.1.0";
             src = ./.;
             
-            # This will need to be updated after first build attempt
-            vendorHash = null;
+            # This is the calculated hash for the dependencies
+            vendorHash = "sha256-sX8nlfZWzH/Wovn3J2hcQR/GJ3BXBpbCL/1bNWUs30Q=";
             
             # ZeroMQ requires CGO
             env = {
               CGO_ENABLED = "1";
+              # Setting proxy to direct allows module downloads
+              GOPROXY = "direct";
             };
             
             # Build as a shared library/plugin
@@ -40,7 +42,11 @@
               cp flow-consumer-zeromq.so $out/lib/
               # Also install a copy of go.mod for future reference
               mkdir -p $out/share
-              cp go.mod go.sum $out/share/
+              cp go.mod $out/share/
+              # Copy go.sum if it exists
+              if [ -f go.sum ]; then
+                cp go.sum $out/share/
+              fi
               runHook postInstall
             '';
             
@@ -50,9 +56,6 @@
               pkgs.zeromq
               pkgs.czmq
             ];
-            
-            # Explicitly use mod mode without vendor
-            buildFlags = ["-mod=mod"];
           };
         };
 
