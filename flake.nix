@@ -55,6 +55,7 @@
             buildInputs = [ 
               pkgs.zeromq
               pkgs.czmq
+              pkgs.libsodium
             ];
           };
         };
@@ -67,6 +68,7 @@
             pkg-config
             zeromq
             czmq
+            libsodium
             # Development tools
             gopls
             delve

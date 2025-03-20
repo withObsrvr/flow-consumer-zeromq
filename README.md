@@ -35,12 +35,26 @@ nix develop
 
 This will provide a shell with all the necessary dependencies, including:
 - Go 1.23
-- ZeroMQ and CZMQ libraries
+- ZeroMQ, CZMQ, and libsodium libraries
 - Development tools (gopls, delve)
 
-## First Time Build Notes
+## Dependencies
 
-When building for the first time, the initial build will likely fail with a vendorHash error. Update the vendorHash in flake.nix with the hash from the error message, and then run the build again.
+This plugin requires the following dependencies, which are automatically handled by the Nix configuration:
+
+- ZeroMQ (libzmq)
+- CZMQ (libczmq)
+- libsodium
+
+All these dependencies are managed through the `flake.nix` file, so you don't need to install them separately when using Nix.
+
+## First Time Setup Notes
+
+When setting up this project with Nix for the first time, you might encounter the following:
+
+1. Initial vendorHash error - This is expected and has been resolved by adding the correct hash to the flake.nix file.
+2. CGO is enabled by default for ZeroMQ integration.
+3. The build uses Go's module system for dependencies.
 
 ## Plugin Details
 
